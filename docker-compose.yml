@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+  php:
+    build: ./docker/php
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - '8000:80'
+    depends_on:
+      - db
+  db:
+    build: ./docker/mysql

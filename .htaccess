@@ -1,0 +1,11 @@
+AddDefaultCharset UTF-8
+php_flag short_open_tag On
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !/.well-known/acme-challenge
+RewriteRule !\.(xsd|wsdl|xml|pdf|js|swf|ico|txt|gif|jpg|jpeg|bmp|tif|png|css|rss|zip|wav|php|html|tar|mp3|mp4|jar|avi|\.gz)$ index.php
+
+</IfModule>
+Options -MultiViews
