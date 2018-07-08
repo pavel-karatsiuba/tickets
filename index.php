@@ -78,7 +78,15 @@ switch ($request_uri[0]) {
             header("Location:/");
         }
         try {
-            $html = renderScript('edit-ticket-form');
+            $id = $_GET['ticketId'];
+            if($id){
+                $ticket = new \Tickets\Ticket();
+                $ticketEntity = $ticket->loadTicket($id);
+                $ticketEntity->date = $ticketEntity->date?date('Y-m-d', $ticketEntity->date):'';
+            }else{
+                $ticketEntity = new \Tickets\Entity\Ticket();
+            }
+            $html = renderScript('edit-ticket-form', $ticketEntity);
             $disableLayout = true;
         }catch (\Exception $e){
             header('HTTP/1.0 404 Not Found');
@@ -96,7 +104,40 @@ switch ($request_uri[0]) {
             $ticketEntity->text = $_POST['text'];
             $ticketEntity->date = $_POST['date'];
             $ticketEntity->status = $_POST['status'];
+            $ticketEntity->filter();
+            $ticketEntity->validate();
             $ticket->save($ticketEntity);
+            $html = ['error' => false];
+        }catch (\Exception $e) {
+            $html = ['error' => true, 'message' => $e->getMessage()];
+        }
+        break;
+    case '/change-ticket-status':
+        if(!$loggedUser->id){
+            header("Location:/");
+        }
+        try {
+            $id = $_REQUEST['id'];
+            $status = $_REQUEST['status'];
+            $ticket = new \Tickets\Ticket();
+            $ticketEntity = $ticket->loadTicket($id);
+            $ticketEntity->status = $status;
+            $ticketEntity->filterStatus();
+            $ticket->save($ticketEntity);
+            $html = ['error' => false];
+        }catch (\Exception $e) {
+            $html = ['error' => true, 'message' => $e->getMessage()];
+        }
+        break;
+    case '/delete-ticket':
+        if(!$loggedUser->id){
+            header("Location:/");
+        }
+        try {
+            $id = $_REQUEST['id'];
+            $ticket = new \Tickets\Ticket();
+            $ticketEntity = $ticket->loadTicket($id);
+            $ticket->delete($ticketEntity);
             $html = ['error' => false];
         }catch (\Exception $e) {
             $html = ['error' => true, 'message' => $e->getMessage()];

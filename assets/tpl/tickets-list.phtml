@@ -1,28 +1,30 @@
-<table class="table">
-    <tr>
-        <th>Title</th>
-        <th>Text</th>
-        <th>Date</th>
-        <th>Status</th>
-        <th>Actions</th>
-    </tr>
-<?
-if(is_array($html))
-foreach($html as $ticket){?>
-    <tr>
-        <td><?=$ticket->title?></td>
-        <td><?=$ticket->text?></td>
-        <td><?=$ticket->date?></td>
-        <td>
-            <select class="custom-select" name="status">
-                <option <?=$ticket->status=='new'?'selected':''?> value="new">New</option>
-                <option <?=$ticket->status=='in action'?'selected':''?> value="in action">In action</option>
-                <option <?=$ticket->status=='done'?'selected':''?> value="done">Done</option>
-            </select>
-        <td>
-            <button type="button" class="btn btn-primary">Edit</button>
-            <button type="button" class="btn btn-danger">Delete</button>
-        </td>
-    </tr>
-<?}?>
-</table>
+<div class="table-responsive">
+    <table class="table">
+        <tr>
+            <th>Title</th>
+            <th>Text</th>
+            <th style="min-width: 100px">Date</th>
+            <th style="min-width: 100px">Status</th>
+            <th style="min-width: 100px">Actions</th>
+        </tr>
+    <?
+    if(is_array($html))
+    foreach($html as $ticket){?>
+        <tr>
+            <td><?=$ticket->title?></td>
+            <td><?=$ticket->text?></td>
+            <td><?=$ticket->date?date('d.m.Y', $ticket->date):''?></td>
+            <td>
+                <select class="custom-select changeStatusButton" name="status" data-id="<?=$ticket->id?>">
+                    <option <?=$ticket->status=='new'?'selected':''?> value="new">New</option>
+                    <option <?=$ticket->status=='in action'?'selected':''?> value="in action">In action</option>
+                    <option <?=$ticket->status=='done'?'selected':''?> value="done">Done</option>
+                </select>
+            <td>
+                <button type="button" class="btn btn-primary editButton"  data-id="<?=$ticket->id?>">Edit</button>
+                <button type="button" class="btn btn-danger deleteButton"  data-id="<?=$ticket->id?>">Delete</button>
+            </td>
+        </tr>
+    <?}?>
+    </table>
+</div>

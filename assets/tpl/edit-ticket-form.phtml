@@ -1,23 +1,23 @@
 <form class="editTicketForm">
-    <input type="hidden" name="id">
+    <input type="hidden" name="id" value="<?=$html->id?>">
     <div class="form-group">
         <label for="ticketTitle">Title</label>
-        <input type="text" class="form-control" id="ticketTitle" placeholder="Enter ticket title" name="title" required>
+        <input type="text" class="form-control" id="ticketTitle" placeholder="Enter ticket title" name="title" value="<?=$html->title?>" required>
     </div>
     <div class="form-group">
         <label for="ticketText">Text</label>
-        <textarea class="form-control" id="ticketText" placeholder="Enter ticket text" name="text" required></textarea>
+        <textarea class="form-control" id="ticketText" placeholder="Enter ticket text" name="text" required><?=$html->text?></textarea>
     </div>
     <div class="form-group">
         <label for="ticketDate">Date</label>
-        <input type="date" class="form-control" id="ticketDate" placeholder="YYYY-MM-DD" data-date-split-input="true" name="date" required mi>
+        <input type="date" class="form-control" id="ticketDate" name="date" value="<?=$html->date?>"  required>
     </div>
     <div class="form-group">
         <label for="ticketDate">Status</label>
         <select class="custom-select" name="status">
-            <option selected value="new">New</option>
-            <option value="in action">In action</option>
-            <option value="done">Done</option>
+            <option <?=$html->status=='new'||!$html->status?'selected':''?> value="new">New</option>
+            <option <?=$html->status=='in action'?'selected':''?> value="in action">In action</option>
+            <option <?=$html->status=='done'?'selected':''?> value="done">Done</option>
         </select>
     </div>
     <button type="button" class="btn btn-primary saveTicket">Submit</button>

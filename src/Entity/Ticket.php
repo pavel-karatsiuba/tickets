@@ -18,15 +18,19 @@ class Ticket{
         $this->$name = $value;
     }
 
+    public function filterStatus(){
+        $this->status = in_array($this->status, self::statuses)?$this->status:self::defaultStatus;
+    }
+
     public function filter(){
         $this->title = mb_substr($this->title, 0, 127);
         $this->date = @strtotime($this->date);
-        $this->status = in_array($this->status, self::statuses)?$this->status:self::defaultStatus;
+        $this->filterStatus();
     }
 
     public function validateDate(){
         if(strtotime('today midnight') > $this->date){
-            throw new Exception\Entity('Ticket cannot be created with past date ' . $this->date);
+            throw new Exception\Entity('Ticket cannot be created with past date');
         }
     }
 

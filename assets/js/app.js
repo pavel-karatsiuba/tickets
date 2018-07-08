@@ -1,12 +1,69 @@
-
 function Tickets() {
     this.init();
+    this.initTicketsListActions();
 }
 Tickets.prototype.init = function() {
     var self = this;
     $(document).ready(function(){
         $('#logoutButton').click(function(){self.logout();});
         $('#createTicketButton').click(function(){self.showEditTicketForm();});
+    });
+};
+
+Tickets.prototype.initTicketsListActions = function() {
+    var self = this;
+    $(document).ready(function(){
+        $('.changeStatusButton').change(function(){
+            if(!confirm('Do you really want to change status?')){
+                self.reloadTicketsList();
+                return false;
+            }
+            var id = $(this).data('id');
+            var status = $('option:selected', this).val();
+            self.changeTicketStatus(id, status);
+        });
+        $('.editButton').click(function(){
+            var id = $(this).data('id');
+            self.showEditTicketForm(id);
+        });
+        $('.deleteButton').click(function(){
+            if(!confirm('Do you really want to delete ticket?')){
+                return false;
+            }
+            var id = $(this).data('id');
+            self.deleteTicket(id);
+        });
+    });
+};
+
+Tickets.prototype.changeTicketStatus = function(id, status) {
+    $.ajax({
+        method: 'post',
+        data: {id: id, status: status},
+        url: '/change-ticket-status',
+        success: function(data){
+            if(data.error){
+                alert(data.message);
+            }
+        },
+        dataType: 'json'
+    });
+};
+
+Tickets.prototype.deleteTicket = function(id) {
+    var self = this;
+    $.ajax({
+        method: 'post',
+        data: {id: id},
+        url: '/delete-ticket',
+        success: function(data){
+            if(data.error){
+                alert(data.message);
+            }else{
+                self.reloadTicketsList();
+            }
+        },
+        dataType: 'json'
     });
 };
 
@@ -47,11 +104,12 @@ Tickets.prototype.saveTicket = function() {
     });
 };
 
-Tickets.prototype.reloadTicketsList = function(ticketId) {
-
+Tickets.prototype.reloadTicketsList = function() {
+    document.location.href = document.location.href;//@TODO dynamic loading of the list
+    this.initTicketsListActions();
 };
 
-Tickets.prototype.clearEditForm = function(ticketId) {
+Tickets.prototype.clearEditForm = function() {
     $('.editTicketContainer').html('');
 };
 
