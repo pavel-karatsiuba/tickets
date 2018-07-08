@@ -1,5 +1,7 @@
 <?
 namespace Tickets\Exception;
-class Db extends \Exception
+class Entity extends \Exception
 {
+
+
 }

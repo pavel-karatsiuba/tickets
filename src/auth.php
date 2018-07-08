@@ -32,13 +32,44 @@ class Auth{
         if ((strlen($password) < 6) || (strlen($password) > 64)) {
             throw new AuthException('Password length should be from 6 to 64 characters');
         }
+        return true;
+    }
 
+    private function isValidRePassword($password, $rePassword){
+        if (!$rePassword || $password != $rePassword){
+            throw new AuthException('Passwordis not fit to repeat password');
+        }
         return true;
     }
 
     public function login($email, $password){
         $this->isValidEmail($email);
         $this->isValidPassword($password);
+        $user = new Db\User();
+        $userEntity = $user->getUser($email);
+        $userEntity->testUserPassword($password);
+        $user->login($userEntity->id, session_id());
+    }
 
+    public function signUp($email, $password, $rePassword){
+        $this->isValidEmail($email);
+        $this->isValidPassword($password);
+        $this->isValidRePassword($password, $rePassword);
+
+        $user = new Db\User();
+        if(!$user->add($email, $password)){
+            throw new AuthException('User can\'t be added');
+        }
+        return true;
+    }
+
+    public function getCurrentLoggedUser(){
+        $user = new Db\User();
+        return $user->getLoggedUser(session_id());
+    }
+
+    public function logout(){
+        $user = new Db\User();
+        $user->logout(session_id());
     }
 }
