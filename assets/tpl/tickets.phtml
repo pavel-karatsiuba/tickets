@@ -9,17 +9,20 @@
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
                 <form class="navbar-form  navbar-left">
-                    <button class="btn btn-sm btn-outline-success" type="button">Create ticket</button>
+                    <button class="btn btn-sm btn-outline-success" type="button" id="createTicketButton">Create ticket</button>
                 </form>
             </li>
         </ul>
         <div class="navbar-text mr-3 ml-3">
-            Hello, <?=$html->login?>
+            Hello, <?=$html->loggedUser->login?>
         </div>
         <form class="navbar-form navbar-right">
             <button class="btn btn-outline-success" type="button" id="logoutButton">Logout</button>
         </form>
     </div>
 </nav>
+<div class="editTicketContainer"></div>
+<div class="ticketsListContainer"><?=$html->tickets?></div>
+
 
 
