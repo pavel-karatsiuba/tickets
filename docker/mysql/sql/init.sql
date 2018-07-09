@@ -17,8 +17,11 @@ CREATE TABLE IF NOT EXISTS t_logged_users (
   PRIMARY KEY (tlu_id)
 );
 
-# INSERT INTO t_users (tu_username, tu_password)
-# SELECT * FROM (SELECT 'test', '098f6bcd4621d373cade4e832627b4f6') AS tmp
-# WHERE NOT EXISTS (
-#     SELECT tu_username FROM t_users WHERE tu_username = 'test'
-# ) LIMIT 1;
+CREATE TABLE IF NOT EXISTS t_tickets (
+  tt_id int(11) NOT NULL AUTO_INCREMENT,
+  tt_date int NOT NULL,
+  tt_title varchar(128) NOT NULL,
+  tt_text text NOT NULL,
+  tt_status varchar(64) NOT NULL,
+  PRIMARY KEY (tt_id)
+);

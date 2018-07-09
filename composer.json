@@ -17,6 +17,11 @@
       "php -r \"copy('vendor/twbs/bootstrap/dist/css/bootstrap.css', 'assets/css/bootstrap.css');\"",
       "php -r \"copy('vendor/twbs/bootstrap/dist/js/bootstrap.js', 'assets/js/bootstrap.js');\"",
       "php -r \"copy('vendor/components/jquery/jquery.js', 'assets/js/jquery.js');\""
+    ],
+    "post-install-cmd": [
+      "php -r \"copy('vendor/twbs/bootstrap/dist/css/bootstrap.css', 'assets/css/bootstrap.css');\"",
+      "php -r \"copy('vendor/twbs/bootstrap/dist/js/bootstrap.js', 'assets/js/bootstrap.js');\"",
+      "php -r \"copy('vendor/components/jquery/jquery.js', 'assets/js/jquery.js');\""
     ]
   }
 }
