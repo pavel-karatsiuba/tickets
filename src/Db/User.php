@@ -1,4 +1,4 @@
-<?
+<?php
 namespace Tickets\Db;
 
 use Tickets\Exception\Db as DbException;

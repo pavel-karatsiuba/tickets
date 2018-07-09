@@ -1,8 +1,10 @@
-<?
+<?php
+
 Namespace Tickets\Entity;
 use Tickets\Exception;
-class Ticket{
-    private $dbPrefix = 'tt';
+
+class Ticket extends BaseEntity{
+    public $dbPrefix = 'tt';
     const statuses = ['new', 'in action', 'done'];
     const defaultStatus = 'new';
     public $id;
@@ -10,13 +12,6 @@ class Ticket{
     public $text;
     public $date;
     public $status;
-
-    public function __set($name, $value){
-        if(strpos($name, $this->dbPrefix) === 0){
-            $name = substr($name, strlen($this->dbPrefix . '_'));
-        }
-        $this->$name = $value;
-    }
 
     public function filterStatus(){
         $this->status = in_array($this->status, self::statuses)?$this->status:self::defaultStatus;
@@ -41,7 +36,7 @@ class Ticket{
     }
 
     public function validateText(){
-        if(empty($this->title)){
+        if(empty($this->text)){
             throw new Exception\Entity('Please fill in text');
         }
     }

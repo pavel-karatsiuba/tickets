@@ -1,4 +1,4 @@
-<?
+<?php
 Namespace Tickets;
 use Tickets\Exception\Entity;
 

@@ -1,4 +1,4 @@
-<?
+<?php
 namespace Tickets\Db;
 
 class Connector

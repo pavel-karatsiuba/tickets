@@ -1,4 +1,4 @@
-<?
+<?php
 namespace Tickets\Db;
 
 use Tickets\Exception\Db as DbException;
@@ -14,14 +14,13 @@ class Ticket
     }
 
     public function getTicketsList(){
-        $res = $this->db->query('select * from t_tickets');
+        $res = $this->db->query('select * from t_tickets order by tt_date asc');
         if($obj = $res->fetch_object(Entity\Ticket::class)){
             $tickets[] = $obj;
             while ($obj = $res->fetch_object(Entity\Ticket::class)) {
                 $tickets[] = $obj;
             }
             return $tickets;
-//            die('<pre>' . print_r($tickets,1));
         }
         return null;
     }

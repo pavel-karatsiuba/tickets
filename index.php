@@ -1,7 +1,6 @@
 <?
 require __DIR__ . '/vendor/autoload.php';
 date_default_timezone_set('UTC');
-use Tickets\Db\User;
 session_start();
 
 function renderScript($tplName, $html = ''){
@@ -11,7 +10,6 @@ function renderScript($tplName, $html = ''){
 }
 
 $request_uri = explode('?', $_SERVER['REQUEST_URI'], 2);
-//die('<pre>' . print_r($request_uri,1));
 
 $disableLayout = false;
 try {
@@ -26,7 +24,6 @@ try {
     die();
 }
 switch ($request_uri[0]) {
-    // Home page
     case '/':
         if($loggedUser->id){
             $ret = new \StdClass();
@@ -39,15 +36,19 @@ switch ($request_uri[0]) {
             $html = $html?$html:renderScript('login');
         }
         break;
-    // About page
     case '/sign-up':
         try {
             $login = $_POST['login'];
             $password = $_POST['password'];
             $rePassword = $_POST['repeat-password'];
             $auth = new \Tickets\Auth();
-            $auth->signUp($login, $password, $rePassword);
-            $auth->login($login, $password);
+            $user = new \Tickets\Entity\User();
+            $user->login = $login;
+            $user->password = $password;
+            $user->rePassword = $rePassword;
+            $user->validate();
+            $auth->signUp($user);
+            $auth->login($user);
             $html = ['error' => false];
         }catch (\Exception $e){
             $html = ['error' => true, 'message' => $e->getMessage()];
@@ -58,7 +59,10 @@ switch ($request_uri[0]) {
             $login = $_POST['login'];
             $password = $_POST['password'];
             $auth = new \Tickets\Auth();
-            $auth->login($login, $password);
+            $user = new \Tickets\Entity\User();
+            $user->login = $login;
+            $user->password = $password;
+            $auth->login($user);
             $html = ['error' => false];
         }catch (\Exception $e){
             $html = ['error' => true, 'message' => $e->getMessage()];
