@@ -18,6 +18,8 @@ class Ticket extends BaseEntity{
     }
 
     public function filter(){
+        $this->title = htmlspecialchars($this->title);
+        $this->text = htmlspecialchars($this->text);
         $this->title = mb_substr($this->title, 0, 127);
         $this->date = @strtotime($this->date);
         $this->filterStatus();

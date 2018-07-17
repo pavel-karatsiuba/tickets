@@ -65,6 +65,6 @@ class User extends BaseEntity{
 
     public function filter()
     {
-        // TODO: Implement filter() method.
+        $this->login = htmlspecialchars($this->login);
     }
 }
